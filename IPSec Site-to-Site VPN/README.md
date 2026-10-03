@@ -77,12 +77,6 @@ This lab demonstrates:
 
 ---
 
-## 📷 Topology
-
-![Cisco IPSec Site-to-Site VPN Topology](topology/ipsec-site-to-site.png)
-
----
-
 # 🔐 VPN Configuration
 
 ## IKEv1 Phase 1
