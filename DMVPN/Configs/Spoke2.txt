@@ -1,0 +1,141 @@
+Spoke2#sh running-config 
+Building configuration...
+
+Current configuration : 3657 bytes
+!
+! Last configuration change at 00:50:51 UTC Sat Oct 3 2026
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Spoke2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+ip cef    
+no ipv6 cef
+!         
+multilink bundle-name authenticated
+!         
+!         
+!         
+!         
+!         
+redundancy
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+crypto isakmp policy 10
+ encr aes 
+ hash sha256
+ authentication pre-share
+ group 5  
+crypto isakmp key cisco123 address 0.0.0.0        
+!         
+!         
+crypto ipsec transform-set TSET esp-aes esp-sha-hmac 
+ mode tunnel
+!         
+!         
+crypto ipsec profile prof
+ set security-association lifetime seconds 900
+ set transform-set TSET 
+!         
+!         
+!         
+!         
+!         
+!         
+interface Tunnel1
+ ip address 192.168.1.3 255.255.255.0
+ no ip redirects
+ ip nhrp authentication cisco123
+ ip nhrp map 192.168.1.1 11.1.1.1
+ ip nhrp map multicast 11.1.1.1
+ ip nhrp network-id 1
+ ip nhrp nhs 192.168.1.1
+ tunnel source 33.1.1.1
+ tunnel mode gre multipoint
+ tunnel protection ipsec profile prof
+!         
+interface GigabitEthernet0/0
+ ip address 33.1.1.1 255.255.252.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/1
+ ip address 10.1.3.100 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/2
+ no ip address
+ shutdown 
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/3
+ no ip address
+ shutdown 
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+!         
+router eigrp 100
+ network 10.0.0.0
+ network 192.168.1.0
+!         
+ip forward-protocol nd
+!         
+!         
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 33.1.1.2
+!         
+ipv6 ioam timestamp
+!         
+!         
+!         
+control-plane
+!         
+line con 0
+line aux 0
+line vty 0 4
+ login    
+ transport input none
+!         
+no scheduler allocate
+!         
+end 

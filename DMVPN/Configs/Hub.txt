@@ -1,0 +1,153 @@
+Hub#sh running-config 
+Building configuration...
+
+Current configuration : 3906 bytes
+!
+! Last configuration change at 00:56:26 UTC Sat Oct 3 2026
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Hub
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+ip cef    
+no ipv6 cef
+!         
+multilink bundle-name authenticated
+!         
+!         
+!         
+!         
+!         
+redundancy
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+crypto isakmp policy 10
+ encr aes 
+ hash sha256
+ authentication pre-share
+ group 5  
+crypto isakmp key cisco123 address 0.0.0.0        
+!         
+!         
+crypto ipsec transform-set TSET esp-aes esp-sha-hmac 
+ mode tunnel
+!         
+!         
+crypto ipsec profile prof
+ set security-association lifetime seconds 900
+ set transform-set TSET 
+!         
+!         
+!         
+!         
+!         
+!         
+interface Loopback1
+ ip address 10.1.4.1 255.255.255.0
+!         
+interface Loopback2
+ ip address 10.1.5.1 255.255.255.0
+!         
+interface Loopback3
+ ip address 10.1.6.1 255.255.255.0
+!         
+interface Loopback4
+ ip address 10.1.7.1 255.255.255.0
+!         
+interface Tunnel1
+ ip address 192.168.1.1 255.255.255.0
+ no ip redirects
+ ip nhrp authentication cisco123
+ ip nhrp map multicast 22.1.1.1
+ ip nhrp map multicast 33.1.1.1
+ ip nhrp network-id 1
+ ip summary-address eigrp 100 10.1.0.0 255.255.0.0
+ tunnel source 11.1.1.1
+ tunnel mode gre multipoint
+ tunnel protection ipsec profile prof
+!         
+interface GigabitEthernet0/0
+ ip address 11.1.1.1 255.255.252.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/1
+ ip address 10.1.1.100 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/2
+ no ip address
+ shutdown 
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/3
+ no ip address
+ shutdown 
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+!         
+router eigrp 100
+ network 10.0.0.0
+ network 192.168.1.0
+!         
+ip forward-protocol nd
+!         
+!         
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 11.1.1.2
+!         
+ipv6 ioam timestamp
+!         
+!         
+!         
+control-plane
+!               
+line con 0
+line aux 0
+line vty 0 4
+ login    
+ transport input none
+!         
+no scheduler allocate
+!         
+end 

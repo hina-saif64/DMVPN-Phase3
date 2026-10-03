@@ -1,0 +1,108 @@
+ISP#show running-config 
+Building configuration...
+
+Current configuration : 2938 bytes
+!
+! Last configuration change at 00:10:50 UTC Sat Oct 3 2026
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+ip cef    
+no ipv6 cef
+!         
+multilink bundle-name authenticated
+!         
+!         
+!         
+!         
+!         
+redundancy
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+!         
+interface GigabitEthernet0/0
+ ip address 11.1.1.2 255.255.252.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/1
+ ip address 22.1.1.2 255.255.252.0
+ duplex auto
+ speed auto
+!         
+interface GigabitEthernet0/2
+ ip address 33.1.1.2 255.255.252.0
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/3
+ no ip address
+ shutdown 
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+ip forward-protocol nd
+!         
+!         
+no ip http server
+no ip http secure-server
+!         
+ipv6 ioam timestamp
+!         
+!         
+!         
+control-plane
+!         
+line con 0
+line aux 0
+line vty 0 4
+ login    
+ transport input none
+!         
+no scheduler allocate
+!         
+end  
